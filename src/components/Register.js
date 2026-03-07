@@ -35,7 +35,29 @@ const Register = () => {
    *      "message": "Username is already taken"
    * }
    */
+  const [formData, setFormData] = useState({
+    userName:"",
+    password:"",
+    confirmPassword:""
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const register = async (formData) => {
+    setLoading(true);
+    try{
+      await axios.post(config, formData)
+    }catch(err){
+      console.error("Something went wrong:", err);
+    }finally{
+      setLoading(false);
+    }
   };
 
   // TODO: CRIO_TASK_MODULE_REGISTER - Implement user input validation logic
@@ -66,6 +88,8 @@ const Register = () => {
       justifyContent="space-between"
       minHeight="100vh"
     >
+    {loading && <CircularProgress />}
+    {!loading && <>
       <Header hasHiddenAuthButtons />
       <Box className="content">
         <Stack spacing={2} className="form">
@@ -77,6 +101,7 @@ const Register = () => {
             title="Username"
             name="username"
             placeholder="Enter Username"
+            onChange={handleChange}
             fullWidth
           />
           <TextField
@@ -86,6 +111,7 @@ const Register = () => {
             name="password"
             type="password"
             helperText="Password must be atleast 6 characters length"
+            onChange={handleChange}
             fullWidth
             placeholder="Enter a password with minimum 6 characters"
           />
@@ -95,9 +121,10 @@ const Register = () => {
             label="Confirm Password"
             name="confirmPassword"
             type="password"
+            onChange={handleChange}
             fullWidth
           />
-           <Button className="button" variant="contained">
+           <Button className="button" variant="contained" onClick={register}>
             Register Now
            </Button>
           <p className="secondary-action">
@@ -109,6 +136,8 @@ const Register = () => {
         </Stack>
       </Box>
       <Footer />
+    </>
+    }
     </Box>
   );
 };
