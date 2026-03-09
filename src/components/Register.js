@@ -36,7 +36,7 @@ const Register = () => {
    * }
    */
   const [formData, setFormData] = useState({
-    userName:"",
+    username:"",
     password:"",
     confirmPassword:""
   });
@@ -49,19 +49,21 @@ const Register = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const register = async () => {
+  const register = async (e) => {
+    setSubmitted(true);
+    e.preventDefault();
     if(!validateInput(formData)) return;
     setLoading(true);
+    console.log("here")
     try{
       let response = await axios.post(`${config.endpoint}/auth/register`,{
-        username:formData.userName,
+        username:formData.username,
         password:formData.password
       });
-      if(response.status === 201){
-        enqueueSnackbar("Registered succssfully",{variant:"success"});
-        setSubmitted(true);
+      if(response.status === 201 && response.data.success){
+        enqueueSnackbar("/success/i",{variant:"success"});
+        // setSubmitted(true);
       }
-
     }catch(err){
       if(err.response){
         enqueueSnackbar(err.response.data.message, {variant: "error"});
@@ -156,14 +158,15 @@ const Register = () => {
             onChange={handleChange}
             fullWidth
           />
-           <Button className="button" variant="contained" onClick={register}>
+          {loading && (<div><CircularProgress size="24" /></div>)}
+          {!loading && (<Button className="button" variant="contained" onClick={(e)=>register(e)}>
             Register Now
-           </Button>
+           </Button>)}
           <p className="secondary-action">
             Already have an account?{" "}
-             {/* <a className="link" href="#">
+             <a className="link" href="#">
               Login here
-             </a> */}
+             </a>
           </p>
         </Stack>
       </Box>
