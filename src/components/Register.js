@@ -49,12 +49,23 @@ const Register = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const register = async (formData) => {
+  const register = async () => {
+    if(!validateInput(formData)) return;
     setLoading(true);
     try{
-      await axios.post(config, formData)
+      let response = await axios.post(`${config.endpoint}/auth/register`,{
+        username:formData.userName,
+        password:formData.password
+      });
+      if(response.status === 201){
+        enqueueSnackbar("Registered succssfully",{variant:"success"});
+        setSubmitted(true);
+      }
+
     }catch(err){
-      console.error("Something went wrong:", err);
+      if(err.response){
+        enqueueSnackbar(err.response.data.message, {variant: "error"});
+      }
     }finally{
       setLoading(false);
     }
@@ -79,6 +90,27 @@ const Register = () => {
    * -    Check that confirmPassword field has the same value as password field - Passwords do not match
    */
   const validateInput = (data) => {
+    if(!data.username){
+      enqueueSnackbar("Username is a required field",{variant: "warning"});
+      return false;
+    }
+    if(data.username.length < 6){
+      enqueueSnackbar("Username must be at least 6 characters",{variant: "warning"});
+      return false;
+    }
+    if(!data.password){
+      enqueueSnackbar("Password is a required field",{variant: "warning"});
+      return false;
+    }
+    if(data.password.length < 6){
+      enqueueSnackbar("Password must be at least 6 characters",{variant: "warning"});
+      return false;
+    }
+    if(data.password !== data.confirmPassword){
+      enqueueSnackbar("Passwords do not match",{variant:"error"});
+      return false;
+    }
+    return true;
   };
 
   return (
@@ -129,9 +161,9 @@ const Register = () => {
            </Button>
           <p className="secondary-action">
             Already have an account?{" "}
-             <a className="link" href="#">
+             {/* <a className="link" href="#">
               Login here
-             </a>
+             </a> */}
           </p>
         </Stack>
       </Box>
