@@ -14,10 +14,11 @@ export const config = {
 function App() {
   return (
     <div className="App">
-      <Switch>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-      </Switch>
+      <Register />
+      {/* <Switch>
+        <Route path="/register" component={<Register />} />
+        <Route path="/login" component={<Login />} />
+      </Switch> */}
     </div>
   );
 }

@@ -11,6 +11,7 @@ import { useHistory, Link } from "react-router-dom";
 
 const Register = () => {
   const { enqueueSnackbar } = useSnackbar();
+  const history = useHistory();
 
 
   // TODO: CRIO_TASK_MODULE_REGISTER - Implement the register function
@@ -63,6 +64,7 @@ const Register = () => {
       });
       if(response.status === 201 && response.data.success){
         enqueueSnackbar("/success/i",{variant:"success"});
+        history.push("/login");
         // setSubmitted(true);
       }
     }catch(err){
