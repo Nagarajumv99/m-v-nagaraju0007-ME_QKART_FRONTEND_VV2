@@ -56,7 +56,7 @@ const Register = () => {
     e.preventDefault();
     if(!validateInput(formData)) return;
     setLoading(true);
-    console.log("here")
+    // console.log("here");
     try{
       let response = await axios.post(`${config.endpoint}/auth/register`,{
         username:formData.username,
@@ -65,7 +65,7 @@ const Register = () => {
       if(response.status === 201 && response.data.success){
         enqueueSnackbar("/success/i",{variant:"success"});
         history.push("/login");
-        // setSubmitted(true);
+        setSubmitted(true);
       }
     }catch(err){
       if(err.response){
@@ -167,9 +167,11 @@ const Register = () => {
            </Button>)}
           <p className="secondary-action">
             Already have an account?{" "}
-             <a className="link" href="#">
+             {/* <a className="link" href="#"> */}
+             <Link className="link" to="/login">
               Login here
-             </a>
+              </Link>
+             {/* </a> */}
           </p>
         </Stack>
       </Box>
