@@ -56,8 +56,11 @@ const Header = ({ children, hasHiddenAuthButtons }) => {
                 <img src="logo_light.svg" alt="QKart-icon" />
               </Box>
               <Box display="flex" alignItems="center" gap={2}>
-                <Avatar  alt={localStorage.getItem("username")} />
-                <Button variant="text" className="user-button">{localStorage.getItem("username")}</Button>
+              <Avatar
+              src="avtar.png"
+              alt={localStorage.getItem("username") || "profile"}
+            />
+            <p className="username-text"> {localStorage.getItem("username")}</p>
                 <Button variant="text" className="explore-button" onClick={handleLogout}>
                   Logout
                 </Button>
