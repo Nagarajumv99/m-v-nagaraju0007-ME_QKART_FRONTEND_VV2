@@ -98,16 +98,20 @@ const Products = () => {
    * API endpoint - "GET /products/search?value=<search-query>"
    *
    */
-  const performSearch = async (text) => {
+   const performSearch = async (text) => {
     try{
-      if(!text){
+      if(!text) {
         performAPICall();
         return;
       }
       const response = await axios.get(`${config.endpoint}/products/search?value=${text}`);
       setProducts(response.data);
-    }catch(err){
-      enqueueSnackbar("Search failed. Please try again.", { variant: "error" });
+    } catch(err) {
+      if (err.response && err.response.status === 404) {
+        setProducts([]); // Clear products to show "No products found"
+      } else {
+        enqueueSnackbar("Search failed. Please try again.", { variant: "error" });
+      }
     }
   };
 
@@ -149,9 +153,20 @@ const Products = () => {
 
       {/* Search view for mobiles */}
       <TextField
-        className="search-mobile"
-        size="small"
         fullWidth
+        sx={{
+          position:{
+            xs:'relative',
+            md:'absolute',
+          },
+          width:{
+            xs:'100%',
+            md:'30%'
+          },
+          top:{md:'0.3%'},
+          left:{md:"50%"},
+          transform:{md:'translateX(-50%)'}
+        }}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
@@ -175,7 +190,10 @@ const Products = () => {
          </Grid>
        </Grid>
        {loading ? (
-        <CircularProgress />
+       <Box display="flex" justifyContent="center" alignItems="center">
+       <CircularProgress />
+       <p>Loading products...</p>
+     </Box>
        ):(
         <Grid container spacing={2} sx={{padding:"30px 30px"}}>
         {products.length ? (
