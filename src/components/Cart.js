@@ -63,7 +63,7 @@ const CartItem = ({item, handleQuantity}) => {
         handleDelete={() => handleQuantity(item.productId, item.qty - 1)}
       />
       <Box padding="0.5rem" fontWeight="700">
-        "$"{item.cost}
+        ${item.cost}
       </Box>
     </Box>
   </Box>
@@ -176,9 +176,12 @@ const Cart = ({
       <Box className="cart">
         {/* TODO: CRIO_TASK_MODULE_CART - Display view for each cart item with non-zero quantity */}
         {
-          items.map((item)=>(
-            <CartItem key={item.productId} item={item} handleQuantity={handleQuantity} />
-          ))
+          items.map((item)=>{
+            if(item.qty > 0){
+              return <CartItem key={item.productId} item={item} handleQuantity={handleQuantity} />
+            }
+            return null;
+          })
         }
         <Box
           padding="1rem"
