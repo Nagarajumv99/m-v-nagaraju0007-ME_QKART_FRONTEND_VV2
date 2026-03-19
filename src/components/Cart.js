@@ -63,7 +63,7 @@ const CartItem = ({item, handleQuantity}) => {
         handleDelete={() => handleQuantity(item.productId, item.qty - 1)}
       />
       <Box padding="0.5rem" fontWeight="700">
-        ${item.cost}
+        "$"{item.cost}
       </Box>
     </Box>
   </Box>
