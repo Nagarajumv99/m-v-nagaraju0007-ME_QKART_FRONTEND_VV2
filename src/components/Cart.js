@@ -33,7 +33,42 @@ import "./Cart.css";
  * @property {string} image - Contains URL for the product image
  * @property {string} productId - Unique ID for the product
  */
-
+const CartItem = ({item, handleQuantity}) => {
+  return (<Box key={item.productId} display="flex" alignItems="flex-start" padding="1rem" className="cart-item">
+  <Box className="image-container">
+    <img
+      src={item.image}
+      alt={item.name}
+      width="100%"
+      height="100%"
+      style={{ objectFit: "contain" }}
+    />
+  </Box>
+  <Box
+    display="flex"
+    flexDirection="column"
+    justifyContent="space-between"
+    height="6rem"
+    paddingX="1rem"
+  >
+    <div>{item.name}</div>
+    <Box
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+    >
+      <ItemQuantity
+        value={item.qty}
+        handleAdd={() => handleQuantity(item.productId, item.qty + 1)}
+        handleDelete={() => handleQuantity(item.productId, item.qty - 1)}
+      />
+      <Box padding="0.5rem" fontWeight="700">
+        ${item.cost}
+      </Box>
+    </Box>
+  </Box>
+</Box>)
+}
 /**
  * Returns the complete data on all products in cartData by searching in productsData
  *
@@ -48,6 +83,12 @@ import "./Cart.css";
  *
  */
 export const generateCartItemsFrom = (cartData, productsData) => {
+  if(!cartData || !productsData) return [];
+
+  return cartData.map(({productId, qty})=>{
+    const product = productsData.find((p) => p._id === productId);
+    return product ? {...product, qty, productId} : null;
+  }).filter(Boolean);
 };
 
 /**
@@ -61,6 +102,7 @@ export const generateCartItemsFrom = (cartData, productsData) => {
  *
  */
 export const getTotalCartValue = (items = []) => {
+  return items.reduce((total, item) => total + item.cost * item.qty, 0);
 };
 
 
@@ -115,9 +157,9 @@ const ItemQuantity = ({
 const Cart = ({
   products,
   items = [],
-  handleQuantity,
+  handleQuantity
 }) => {
-
+  const history = useHistory();
   if (!items.length) {
     return (
       <Box className="cart empty">
@@ -133,6 +175,11 @@ const Cart = ({
     <>
       <Box className="cart">
         {/* TODO: CRIO_TASK_MODULE_CART - Display view for each cart item with non-zero quantity */}
+        {
+          items.map((item)=>(
+            <CartItem key={item.productId} item={item} handleQuantity={handleQuantity} />
+          ))
+        }
         <Box
           padding="1rem"
           display="flex"
@@ -159,6 +206,7 @@ const Cart = ({
             variant="contained"
             startIcon={<ShoppingCart />}
             className="checkout-btn"
+            onClick={()=>history.push("/checkout")}
           >
             Checkout
           </Button>
