@@ -275,7 +275,7 @@ const Products = () => {
     }
     if(options.preventDuplicate && isItemInCart(items, productId)){
       enqueueSnackbar(
-        "Item already in cart. Use the cart sidebar to update quantity.",
+        "Item already in cart. Use the cart sidebar to update quantity or remove item.",
         {variant:"warning"}
       );
       return;
