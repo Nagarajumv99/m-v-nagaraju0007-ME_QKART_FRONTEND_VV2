@@ -88,7 +88,8 @@ export const generateCartItemsFrom = (cartData, productsData) => {
   return cartData.map(({productId, qty})=>{
     const product = productsData.find((p) => p._id === productId);
     return product ? {...product, qty, productId} : null;
-  }).filter(Boolean);
+  })
+  .filter(Boolean);
 };
 
 /**
