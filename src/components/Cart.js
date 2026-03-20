@@ -85,7 +85,8 @@ const CartItem = ({item, handleQuantity}) => {
 export const generateCartItemsFrom = (cartData, productsData) => {
   if(!cartData || !productsData) return [];
 
-  return cartData.map(({productId, qty})=>{
+  return cartData
+  .map(({productId, qty})=>{
     const product = productsData.find((p) => p._id === productId);
     return product ? {...product, qty, productId} : null;
   })
@@ -177,12 +178,13 @@ const Cart = ({
       <Box className="cart">
         {/* TODO: CRIO_TASK_MODULE_CART - Display view for each cart item with non-zero quantity */}
         {
-          items.map((item)=>{
-            if(item.qty > 0){
-              return <CartItem key={item.productId} item={item} handleQuantity={handleQuantity} />
-            }
-            return null;
-          })
+          items.map((item) => (
+            <CartItem
+              key={item.productId}
+              item={item}
+              handleQuantity={handleQuantity}
+            />
+          ))
         }
         <Box
           padding="1rem"

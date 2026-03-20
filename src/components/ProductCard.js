@@ -28,7 +28,7 @@ const ProductCard = ({ product, handleAddToCart }) => {
           {product.category}
         </Typography>
         <Typography variant="h6" color="primary">
-          {product.cost}
+          ${product.cost}
         </Typography>
         <Rating name="read-only" value={product.rating} readOnly />
       </CardContent>
