@@ -33,7 +33,6 @@ import "./Products.css";
  * @property {number} cost - The price to buy the product
  * @property {number} rating - The aggregate rating of the product (integer out of five)
  * @property {string} image - Contains URL for the product image
-<<<<<<< ours
  * @property {string} _id - Unique ID for the product
  */
 
@@ -46,13 +45,6 @@ const Products = () => {
   const { enqueueSnackbar } = useSnackbar();
   const token = localStorage.getItem("token");
   // TODO: CRIO_TASK_MODULE_PRODUCTS - Fetch products data and store it
-=======
- * @property {string} productId - Unique ID for the product
- */
-
-const Products = () => {
-
->>>>>>> theirs
   /**
    * Make API call to get the products list and store it to display the products
    *
@@ -89,7 +81,6 @@ const Products = () => {
    *      "message": "Something went wrong. Check the backend console for more details"
    * }
    */
-<<<<<<< ours
 
   const performAPICall = async () => {
     setLoading(true);
@@ -110,11 +101,6 @@ const Products = () => {
     }
   },[]);
   // TODO: CRIO_TASK_MODULE_PRODUCTS - Implement search logic
-=======
-  const performAPICall = async () => {
-  };
-
->>>>>>> theirs
   /**
    * Definition for search handler
    * This is the function that is called on adding new search keys
@@ -128,7 +114,6 @@ const Products = () => {
    * API endpoint - "GET /products/search?value=<search-query>"
    *
    */
-<<<<<<< ours
    const performSearch = async (text) => {
     try{
       if(!text) {
@@ -147,11 +132,6 @@ const Products = () => {
   };
 
   // TODO: CRIO_TASK_MODULE_PRODUCTS - Optimise API calls with debounce search implementation
-=======
-  const performSearch = async (text) => {
-  };
-
->>>>>>> theirs
   /**
    * Definition for debounce handler
    * With debounce, this is the function to be called whenever the user types text in the searchbar field
@@ -164,7 +144,6 @@ const Products = () => {
    *
    */
   const debounceSearch = (event, debounceTimeout) => {
-<<<<<<< ours
     if(debounceTimeout){
       clearTimeout(debounceTimeout);
     }
@@ -328,20 +307,10 @@ const Products = () => {
   }
 
   const cartItems = generateCartItemsFrom(cartData, products);
-=======
-  };
-
-
-
-
-
-
->>>>>>> theirs
 
   return (
     <div>
       <Header>
-<<<<<<< ours
         {/* TODO: CRIO_TASK_MODULE_PRODUCTS - Display search bar in the header for Products page */}
         
       </Header>
@@ -360,15 +329,6 @@ const Products = () => {
           left:{md:"50%"},
           transform:{md:'translateX(-50%)'}
         }}
-=======
-
-      </Header>
-
-      <TextField
-        className="search-mobile"
-        size="small"
-        fullWidth
->>>>>>> theirs
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
@@ -378,7 +338,6 @@ const Products = () => {
         }}
         placeholder="Search for items/categories"
         name="search"
-<<<<<<< ours
         onChange={(e)=>debounceSearch(e, debounceTimeout)}
       />
       {/* Search view for mobiles */}
@@ -440,9 +399,6 @@ const Products = () => {
         )}
       </Box>
       </>
-=======
-      />
->>>>>>> theirs
       <Footer />
     </div>
   );

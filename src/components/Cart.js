@@ -33,7 +33,7 @@ import "./Cart.css";
  * @property {string} image - Contains URL for the product image
  * @property {string} productId - Unique ID for the product
  */
-const CartItem = ({item, handleQuantity}) => {
+const CartItem = ({item, handleQuantity, isReadOnly}) => {
   return (<Box key={item.productId} display="flex" alignItems="flex-start" padding="1rem" className="cart-item">
   <Box className="image-container">
     <img
@@ -61,6 +61,7 @@ const CartItem = ({item, handleQuantity}) => {
         value={item.qty}
         handleAdd={() => handleQuantity(item.productId, item.qty + 1)}
         handleDelete={() => handleQuantity(item.productId, item.qty - 1)}
+        isReadOnly={isReadOnly}
       />
       <Box padding="0.5rem" fontWeight="700">
         ${item.cost}
@@ -104,13 +105,9 @@ export const generateCartItemsFrom = (cartData, productsData) => {
  *
  */
 export const getTotalCartValue = (items = []) => {
-<<<<<<< ours
   return items.reduce((total, item) => total + item.cost * item.qty, 0);
 };
 
-
-=======
-};
 
 // TODO: CRIO_TASK_MODULE_CHECKOUT - Implement function to return total cart quantity
 /**
@@ -124,10 +121,10 @@ export const getTotalCartValue = (items = []) => {
  *
  */
 export const getTotalItems = (items = []) => {
+  return items.reduce((sum, item) => sum + item.qty, 0)
 };
 
 // TODO: CRIO_TASK_MODULE_CHECKOUT - Add static quantity view for Checkout page cart
->>>>>>> theirs
 /**
  * Component to display the current quantity for a product and + and - buttons to update product quantity on cart
  * 
@@ -148,18 +145,27 @@ const ItemQuantity = ({
   value,
   handleAdd,
   handleDelete,
+  isReadOnly
 }) => {
   return (
     <Stack direction="row" alignItems="center">
-      <IconButton size="small" color="primary" onClick={handleDelete}>
-        <RemoveOutlined />
-      </IconButton>
+      {
+        !isReadOnly && (
+          <IconButton size="small" color="primary" onClick={handleDelete}>
+            <RemoveOutlined />
+          </IconButton>
+        )
+      }
       <Box padding="0.5rem" data-testid="item-qty">
         {value}
       </Box>
-      <IconButton size="small" color="primary" onClick={handleAdd}>
-        <AddOutlined />
-      </IconButton>
+      {
+        !isReadOnly && (
+          <IconButton size="small" color="primary" onClick={handleAdd}>
+            <AddOutlined />
+          </IconButton>
+        )
+      }
     </Stack>
   );
 };
@@ -183,15 +189,10 @@ const ItemQuantity = ({
 const Cart = ({
   products,
   items = [],
-<<<<<<< ours
-  handleQuantity
+  handleQuantity,
+  isReadOnly
 }) => {
   const history = useHistory();
-=======
-  handleQuantity,
-}) => {
-
->>>>>>> theirs
   if (!items.length) {
     return (
       <Box className="cart empty">
@@ -213,6 +214,7 @@ const Cart = ({
               key={item.productId}
               item={item}
               handleQuantity={handleQuantity}
+              isReadOnly={isReadOnly}
             />
           ))
         }
@@ -241,7 +243,7 @@ const Cart = ({
             color="primary"
             variant="contained"
             startIcon={<ShoppingCart />}
-            className="checkout-btn"
+            className="checkout-btn button"
             onClick={()=>history.push("/checkout")}
           >
             Checkout
