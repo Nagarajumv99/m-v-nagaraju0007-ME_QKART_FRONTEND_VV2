@@ -593,7 +593,7 @@ const Checkout = () => {
           </Box>
         </Grid>
         <Grid item xs={12} md={3} bgcolor="#E9F5E1">
-          <Cart isReadOnly products={products} items={items} />
+          <Cart isReadOnly="true" products={products} items={items} />
         </Grid>
       </Grid>
       <Footer />

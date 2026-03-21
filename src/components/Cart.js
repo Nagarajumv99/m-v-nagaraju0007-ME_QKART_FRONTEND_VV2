@@ -149,23 +149,23 @@ const ItemQuantity = ({
 }) => {
   return (
     <Stack direction="row" alignItems="center">
-      {
-        !isReadOnly && (
-          <IconButton size="small" color="primary" onClick={handleDelete}>
-            <RemoveOutlined />
-          </IconButton>
-        )
-      }
-      <Box padding="0.5rem" data-testid="item-qty">
-        {value}
-      </Box>
-      {
-        !isReadOnly && (
-          <IconButton size="small" color="primary" onClick={handleAdd}>
-            <AddOutlined />
-          </IconButton>
-        )
-      }
+   {isReadOnly ? (
+     <Box padding="0.5rem" data-testid="item-qty">
+    Qty: {value}
+     </Box>
+   ) : (
+     <>
+    <IconButton size="small" color="primary" onClick={handleDelete}>
+      <RemoveOutlined />
+    </IconButton>
+    <Box padding="0.5rem" data-testid="item-qty">
+      {value}
+    </Box>
+    <IconButton size="small" color="primary" onClick={handleAdd}>
+      <AddOutlined />
+    </IconButton>
+     </>
+   )}
     </Stack>
   );
 };
