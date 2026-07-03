@@ -6,8 +6,12 @@ import Products from "./components/Products";
 import Checkout from "./components/Checkout";
 import Thanks from "./components/Thanks";
 
+// Support environment variables for production (Vercel/Docker)
+// Fall back to ipConfig for local development
+const backendUrl = process.env.REACT_APP_BACKEND_URL || `http://${ipConfig.workspaceIp}:8082/api/v1`;
+
 export const config = {
-  endpoint: `http://${ipConfig.workspaceIp}:8082/api/v1`,
+  endpoint: backendUrl,
 };
 
 function App() {
